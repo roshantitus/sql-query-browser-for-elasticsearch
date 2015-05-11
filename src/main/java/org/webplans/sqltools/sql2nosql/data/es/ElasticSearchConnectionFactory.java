@@ -15,7 +15,7 @@ public class ElasticSearchConnectionFactory implements ConnectionFactory {
 
 	@Override
 	public Connection openConnection(Configuration config) {
-		return new ElasticSearchConnection();
+		return new ElasticSearchConnection(config);
 	}
 
 }

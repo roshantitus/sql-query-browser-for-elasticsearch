@@ -8,7 +8,8 @@ import org.webplans.sqltools.sql2nosql.data.Configuration;
 import org.webplans.sqltools.sql2nosql.data.Connection;
 import org.webplans.sqltools.sql2nosql.data.ConnectionFactory;
 import org.webplans.sqltools.sql2nosql.data.DataSource;
-import org.webplans.sqltools.sql2nosql.data.es.ElasticSearchConnectionFactory;
+import org.webplans.sqltools.sql2nosql.data.Statement;
+import org.webplans.sqltools.sql2nosql.data.exception.ConnectionException;
 import org.webplans.sqltools.sql2nosql.model.Query;
 import org.webplans.sqltools.sql2nosql.model.Result;
 
@@ -27,23 +28,34 @@ public class QueryDAOImpl implements QueryDAO {
 	public Result executeQuery(Query queryObject, DataSource dataSource, Configuration config) 
 	{
 		Result result = null;
-		ConnectionFactory connectionFactory = getConnectionFactory(dataSource);
-		Connection connection = connectionFactory.openConnection(config);
-		String query = connection.buildQuery(queryObject);
-		Object resultset = connection.executeQuery(query);
-		result = connection.processResult(resultset);
-		connection.close();
+		Connection connection = openConnectionToDatasource(dataSource, config);
+		
+		result = executeQuery(queryObject, connection);
+		
+		closeConnectionWithDatasource(connection);
 		return result;
 	}
-	
-	private ConnectionFactory getConnectionFactory(DataSource dataSource)
-	{
-		ConnectionFactory connectionFactory = null;
-		if(DataSource.ELASTICSEARCH.equals(dataSource))
+
+	public Result executeQuery(Query queryObject, Connection connection) {
+		Result result = null;
+		Statement statement = connection.buildStatement(queryObject);
+		result = statement.execute();
+		return result;
+	}
+
+	public void closeConnectionWithDatasource(Connection connection) {
+		connection.close();
+	}
+
+	public Connection openConnectionToDatasource(DataSource dataSource,
+			Configuration config) {
+		if(null == dataSource)
 		{
-			connectionFactory = new ElasticSearchConnectionFactory();
-		}		
-		return connectionFactory;
-	}	
+			throw new ConnectionException("dataSource is null");
+		}
+		ConnectionFactory connectionFactory = AbstractConnectionFactory.getConnectionFactory(dataSource);
+		Connection connection = connectionFactory.openConnection(config);
+		return connection;
+	}
 
 }
