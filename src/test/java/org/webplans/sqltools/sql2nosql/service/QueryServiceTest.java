@@ -28,7 +28,7 @@ import org.webplans.sqltools.sql2nosql.service.vo.DataSourceConnectionParameters
 public class QueryServiceTest {
 
 	private static final String PORT = "9300";
-	private static final String HOST_NAME = "192.168.1.3";
+	private static final String HOST_NAME = "RTITUS-PC";
 	private static final String DATASOURCE = "es";
 	
 	@Autowired
@@ -61,7 +61,7 @@ public class QueryServiceTest {
 		//run	
 		try
 		{
-			Result result = queryService.executeQuery(queryString, dataSourceConnectionParameters);
+			queryService.executeQuery(queryString, dataSourceConnectionParameters);
 			
 			//set expectations
 			fail();

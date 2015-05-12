@@ -19,11 +19,14 @@ import org.webplans.sqltools.sql2nosql.data.dao.QueryDAOImpl;
  */
 public class ElasticSearchQueryDaoTest {
 
+	private static final String PORT = "9300";
+	private static final String HOST_NAME = "RTITUS-PC";
+	
 	@Test
 	public void testGetConnection() {
 		
 		QueryDAOImpl queryDAO = new QueryDAOImpl();
-		Configuration config = new Configuration("192.168.1.3", 9300);
+		Configuration config = new Configuration(HOST_NAME, Integer.valueOf(PORT));
 		Connection connection = queryDAO.openConnectionToDatasource(DataSource.ELASTICSEARCH, config);
 		assertNotNull(connection);
 		assertThat(connection, instanceOf(ElasticSearchConnection.class));		
