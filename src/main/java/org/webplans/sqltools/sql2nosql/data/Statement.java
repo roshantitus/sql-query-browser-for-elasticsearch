@@ -3,7 +3,7 @@
  */
 package org.webplans.sqltools.sql2nosql.data;
 
-import org.webplans.sqltools.sql2nosql.data.exception.DataAccessException;
+import org.webplans.sqltools.sql2nosql.exception.DataAccessException;
 import org.webplans.sqltools.sql2nosql.model.Result;
 
 /**

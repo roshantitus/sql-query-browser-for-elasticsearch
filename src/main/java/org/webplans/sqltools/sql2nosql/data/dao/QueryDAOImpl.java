@@ -4,12 +4,13 @@
 package org.webplans.sqltools.sql2nosql.data.dao;
 
 import org.springframework.stereotype.Repository;
+import org.webplans.sqltools.sql2nosql.data.AbstractConnectionFactory;
 import org.webplans.sqltools.sql2nosql.data.Configuration;
 import org.webplans.sqltools.sql2nosql.data.Connection;
 import org.webplans.sqltools.sql2nosql.data.ConnectionFactory;
 import org.webplans.sqltools.sql2nosql.data.DataSource;
 import org.webplans.sqltools.sql2nosql.data.Statement;
-import org.webplans.sqltools.sql2nosql.data.exception.ConnectionException;
+import org.webplans.sqltools.sql2nosql.exception.ConnectionException;
 import org.webplans.sqltools.sql2nosql.model.Query;
 import org.webplans.sqltools.sql2nosql.model.Result;
 

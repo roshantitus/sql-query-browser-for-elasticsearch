@@ -5,12 +5,14 @@ import org.junit.runners.Suite;
 import org.webplans.sqltools.sql2nosql.data.es.ElasticSearchQueryDaoTest;
 import org.webplans.sqltools.sql2nosql.service.QueryServiceTest;
 import org.webplans.sqltools.sql2nosql.service.QueryTransformationServiceTest;
+import org.webplans.sqltools.sql2nosql.sqlparser.SQLParserTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	QueryServiceTest.class,
 	QueryTransformationServiceTest.class,
-	ElasticSearchQueryDaoTest.class
+	ElasticSearchQueryDaoTest.class,
+	SQLParserTest.class
 })
 
 /**

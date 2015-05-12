@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.webplans.sqltools.sql2nosql.data.exception;
+package org.webplans.sqltools.sql2nosql.exception;
 
 /**
  * @author Roshan Titus

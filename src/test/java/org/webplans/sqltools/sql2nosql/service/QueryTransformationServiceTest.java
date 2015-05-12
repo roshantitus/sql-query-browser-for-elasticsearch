@@ -1,12 +1,13 @@
 package org.webplans.sqltools.sql2nosql.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.webplans.sqltools.sql2nosql.model.Query;
 
 @ContextConfiguration(locations = {"classpath:spring/business-config.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,10 +23,10 @@ public class QueryTransformationServiceTest {
 		String queryString = "select * from employee";
 		
 		//run
-		Object object = queryTransformationService.transformQueryStringToObjectHeirarchy(queryString);
+		Query query = queryTransformationService.transformQueryStringToObjectHeirarchy(queryString);
 		
 		//set expectations
-		assertNotNull(object);
+		assertNotNull(query);
 	}
 
 }

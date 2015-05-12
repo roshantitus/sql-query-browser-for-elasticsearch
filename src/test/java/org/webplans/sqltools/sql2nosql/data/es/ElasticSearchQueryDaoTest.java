@@ -23,7 +23,7 @@ public class ElasticSearchQueryDaoTest {
 	public void testGetConnection() {
 		
 		QueryDAOImpl queryDAO = new QueryDAOImpl();
-		Configuration config = new Configuration("localhost", 9300);
+		Configuration config = new Configuration("192.168.1.3", 9300);
 		Connection connection = queryDAO.openConnectionToDatasource(DataSource.ELASTICSEARCH, config);
 		assertNotNull(connection);
 		assertThat(connection, instanceOf(ElasticSearchConnection.class));		

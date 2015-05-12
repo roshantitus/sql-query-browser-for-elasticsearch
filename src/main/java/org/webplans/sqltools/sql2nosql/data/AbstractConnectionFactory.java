@@ -1,10 +1,8 @@
 /**
  * 
  */
-package org.webplans.sqltools.sql2nosql.data.dao;
+package org.webplans.sqltools.sql2nosql.data;
 
-import org.webplans.sqltools.sql2nosql.data.ConnectionFactory;
-import org.webplans.sqltools.sql2nosql.data.DataSource;
 import org.webplans.sqltools.sql2nosql.data.es.ElasticSearchConnectionFactory;
 
 /**

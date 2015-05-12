@@ -3,9 +3,9 @@
  */
 package org.webplans.sqltools.sql2nosql.data;
 
-import org.webplans.sqltools.sql2nosql.data.exception.ConnectionException;
-import org.webplans.sqltools.sql2nosql.data.exception.QueryException;
-import org.webplans.sqltools.sql2nosql.data.exception.ResultException;
+import org.webplans.sqltools.sql2nosql.exception.ConnectionException;
+import org.webplans.sqltools.sql2nosql.exception.QueryException;
+import org.webplans.sqltools.sql2nosql.exception.ResultException;
 import org.webplans.sqltools.sql2nosql.model.Query;
 import org.webplans.sqltools.sql2nosql.model.Result;
 

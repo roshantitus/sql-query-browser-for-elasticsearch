@@ -12,21 +12,21 @@ import java.util.List;
  */
 public class Result {
 	
-	private int totalHits;
+	private Long totalHits;
 	private List<Row> rows;
 	
 	
 	public Result() {
 		super();
-		totalHits = 0;
+		totalHits = 0L;
 		rows = new ArrayList<Row>();
 	}
 	
-	public int getTotalHits() {
+	public Long getTotalHits() {
 		return totalHits;
 	}
 	
-	public void setTotalHits(int totalHits) {
+	public void setTotalHits(Long totalHits) {
 		this.totalHits = totalHits;
 	}
 	

@@ -3,8 +3,10 @@
  */
 package org.webplans.sqltools.sql2nosql.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webplans.sqltools.sql2nosql.model.Query;
+import org.webplans.sqltools.sql2nosql.service.sqlparser.SQLParser;
 
 /**
  * @author Roshan Titus
@@ -14,13 +16,15 @@ import org.webplans.sqltools.sql2nosql.model.Query;
 public class QueryTransformationServiceImpl implements
 		QueryTransformationService {
 
+	@Autowired
+	private SQLParser sqlParser;
+	
 	/* (non-Javadoc)
 	 * @see org.webplans.sqltools.sql2nosql.service.QueryTransformationService#transformQueryStringToObjectHeirarchy(java.lang.String)
 	 */
 	@Override
 	public Query transformQueryStringToObjectHeirarchy(String queryString) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlParser.parse(queryString);
 	}
 
 }

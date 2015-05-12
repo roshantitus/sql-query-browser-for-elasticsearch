@@ -33,8 +33,8 @@ public class QueryServiceTest {
 		String queryString = "select * from employee";
 
 		String dataSourceCode = "es";
-		String hostName = "localhost";
-		String port = "9200";
+		String hostName = "192.168.1.3";
+		String port = "9300";
 		
 		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(dataSourceCode, hostName, port);
 		

@@ -6,11 +6,10 @@ package org.webplans.sqltools.sql2nosql.data.es;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilder;
-import static org.elasticsearch.index.query.QueryBuilders.*;
-import static org.elasticsearch.index.query.FilterBuilders.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.webplans.sqltools.sql2nosql.data.Statement;
-import org.webplans.sqltools.sql2nosql.data.exception.DataAccessException;
+import org.webplans.sqltools.sql2nosql.exception.DataAccessException;
 import org.webplans.sqltools.sql2nosql.model.Query;
 import org.webplans.sqltools.sql2nosql.model.Result;
 
@@ -20,6 +19,7 @@ import org.webplans.sqltools.sql2nosql.model.Result;
  */
 public class ElasticSearchStatement implements Statement{
 
+	final Logger logger = LoggerFactory.getLogger(ElasticSearchStatement.class);
 	private Client client;
 	private QueryBuilder querybuilder;
 	
@@ -34,10 +34,7 @@ public class ElasticSearchStatement implements Statement{
 
 	private void buildQuery(Query queryObject) {
 
-		querybuilder = matchQuery(
-			    "name",                  
-			    "kimchy elasticsearch"   
-			);
+		querybuilder = ElastcSearchQueryBuilder.buildQuery(queryObject);
 	}
 
 
@@ -47,8 +44,10 @@ public class ElasticSearchStatement implements Statement{
 		Result result = null;
 		try
 		{
+			
+			logger.info(querybuilder.toString());
 			SearchResponse response = client.prepareSearch().setQuery(querybuilder).execute().actionGet();
-			System.out.println(response.toString());
+			logger.info(response.toString());
 			
 			result = processSeachResponse(response);
 		}
@@ -64,7 +63,22 @@ public class ElasticSearchStatement implements Statement{
 
 	private Result processSeachResponse(SearchResponse response) {
 		// TODO Auto-generated method stub
-		return null;
+		Result result = null;
+		if(null != response)
+		{
+			result = new Result();
+			Long totalHits = response.getHits().getTotalHits();
+			result.setTotalHits(totalHits);
+//			if(totalHits > 0)
+//			{
+//				Iterator iterator = response.getHits().iterator();
+//				while(iterator.hasNext())
+//				{
+//					iterator.next();
+//				}
+//			}
+		}
+		return result;
 	}
 	
 }
