@@ -3,7 +3,7 @@
  */
 package org.webplans.sqltools.sql2nosql.model;
 
-import net.sf.jsqlparser.statement.StatementVisitorAdapter;
+
 
 /**
  * @author Roshan Titus
@@ -11,5 +11,6 @@ import net.sf.jsqlparser.statement.StatementVisitorAdapter;
  */
 public interface Query {
 
-	void accept(QueryVisitorAdapter queryVisitorAdapter);
+	void accept(QueryVisitor queryVisitor);
+	
 }

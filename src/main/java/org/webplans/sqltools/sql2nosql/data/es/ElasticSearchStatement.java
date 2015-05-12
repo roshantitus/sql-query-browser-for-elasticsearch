@@ -34,7 +34,8 @@ public class ElasticSearchStatement implements Statement{
 
 	private void buildQuery(Query queryObject) {
 
-		querybuilder = ElastcSearchQueryBuilder.buildQuery(queryObject);
+		ElastcSearchQueryBuilder elastcSearchQueryBuilder = new ElastcSearchQueryBuilder();
+		querybuilder = elastcSearchQueryBuilder.buildQuery(queryObject);
 	}
 
 

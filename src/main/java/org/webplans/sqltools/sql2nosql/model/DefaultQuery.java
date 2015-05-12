@@ -18,8 +18,8 @@ public class DefaultQuery implements Query {
 	}
 
 	@Override
-	public void accept(QueryVisitorAdapter queryVisitorAdapter) {
-		queryVisitorAdapter.visit(statement);
+	public void accept(QueryVisitor queryVisitor) {
+		queryVisitor.visit(statement);
 		
 	}
 

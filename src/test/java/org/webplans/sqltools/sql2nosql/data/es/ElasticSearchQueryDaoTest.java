@@ -30,13 +30,5 @@ public class ElasticSearchQueryDaoTest {
 		assertNotNull(((ElasticSearchConnection)connection).getClient());
 		connection.close();
 	}
-	
-//	@Test
-//	public void testExecute() {
-//		
-//		Configuration config = new Configuration("localhost", 9300);
-//		Connection connection = new ElasticSearchConnectionFactory().openConnection(config);
-//		connection.execute();	
-//	}	
 
 }
