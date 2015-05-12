@@ -14,15 +14,16 @@ import org.elasticsearch.index.query.QueryBuilder;
 public class ElasticSearchQuery {
 
 	private String index;
+	private String type;
 	private QueryBuilder querybuilder;
 	private List<String> fields;
-	
-	public ElasticSearchQuery(String index, QueryBuilder querybuilder,
-			List<String> fields) {
+
+	public ElasticSearchQuery(String index, String type,
+			QueryBuilder querybuilder) {
 		super();
 		this.index = index;
+		this.type = type;
 		this.querybuilder = querybuilder;
-		this.fields = fields;
 	}
 
 	public String getIndex() {
@@ -35,6 +36,26 @@ public class ElasticSearchQuery {
 
 	public List<String> getFields() {
 		return fields;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
+	}
+
+	public void setQuerybuilder(QueryBuilder querybuilder) {
+		this.querybuilder = querybuilder;
+	}
+
+	public void setFields(List<String> fields) {
+		this.fields = fields;
 	}
 	
 	

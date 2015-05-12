@@ -97,17 +97,19 @@ import org.webplans.sqltools.sql2nosql.model.QueryVisitor;
 public class ElasticSearchQueryBuilder implements QueryVisitor, StatementVisitor, SelectVisitor, FromItemVisitor, ExpressionVisitor, ItemsListVisitor{
 
 	private String index;
+	private String type;
 	private QueryBuilder querybuilder;
 	private List<String> fields;
 	
-	public ElasticSearchQuery buildQuery(Query queryObject, String index) throws NotSupportedException
+	public ElasticSearchQuery buildQuery(Query queryObject, String idx) throws NotSupportedException
 	{
-		this.index = index;
+		this.index = idx;
 		this.fields = new ArrayList<String>();
 				
 		queryObject.accept(this);
 		
-		ElasticSearchQuery elasticSearchQuery = new ElasticSearchQuery(this.index, querybuilder, fields);
+		ElasticSearchQuery elasticSearchQuery = new ElasticSearchQuery(index, type, querybuilder);
+		elasticSearchQuery.setFields(fields);
 		return elasticSearchQuery;				
 	}
 
@@ -435,8 +437,14 @@ public class ElasticSearchQueryBuilder implements QueryVisitor, StatementVisitor
 		List<SelectItem> selectItems = plainSelect.getSelectItems();
 		for(SelectItem selectItem : selectItems)
 		{
-			fields.add(selectItem.toString());
+			String field = selectItem.toString();
+			if(null != field && field.length() > 0 && !"*".equals(field))
+			{
+				fields.add(field);
+			}
 		}
+		
+		type = (null != plainSelect.getFromItem()) ? plainSelect.getFromItem().toString() : null;
 	}
 
 	@Override

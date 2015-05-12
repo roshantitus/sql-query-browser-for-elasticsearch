@@ -69,6 +69,10 @@ public class ElasticSearchStatement implements Statement{
 			{
 				searchRequest.addField(field);				
 			}
+			if(null != elasticSearchQuery.getType())
+			{
+				searchRequest.setTypes(elasticSearchQuery.getType());
+			}
 			logger.info("SearchRequest: " + searchRequest.toString());
 			SearchResponse response = searchRequest.execute().actionGet();
 			logger.info("SearchReponse: " + response.toString());
@@ -85,8 +89,8 @@ public class ElasticSearchStatement implements Statement{
 
 
 
-	private Result processSeachResponse(SearchResponse response) {
-		// TODO Auto-generated method stub
+	private Result processSeachResponse(SearchResponse response) 
+	{
 		Result result = null;
 		if(null != response)
 		{
@@ -99,17 +103,53 @@ public class ElasticSearchStatement implements Statement{
 				while(iterator.hasNext())
 				{
 					SearchHit searchHit = iterator.next();
-					Map<String, SearchHitField> fieldsAndValues = searchHit.getFields();
-					Row<String, Object> row = new Row<String, Object>();
-					for(Entry<String, SearchHitField> mapEntry : fieldsAndValues.entrySet())
+										
+					if(null != searchHit.getFields() && searchHit.getFields().size() > 0)
 					{
-						row.put(mapEntry.getKey(), mapEntry.getValue().getValue());
+						getResultFromFields(result, searchHit);
 					}
-					result.addRow(row);
+					else
+					{
+						getResultFromSource(result, searchHit);						
+					}
 				}
 			}
 		}
 		return result;
+	}
+
+
+
+	/**
+	 * @param result
+	 * @param searchHit
+	 */
+	private void getResultFromSource(Result result, SearchHit searchHit) 
+	{
+		Map<String, Object> fieldsAndValues = searchHit.getSource();
+		Row<String, Object> row = new Row<String, Object>();
+		for(Entry<String, Object> mapEntry : fieldsAndValues.entrySet())
+		{
+			row.put(mapEntry.getKey(), mapEntry.getValue());
+		}
+		result.addRow(row);
+	}
+
+
+
+	/**
+	 * @param result
+	 * @param searchHit
+	 */
+	private void getResultFromFields(Result result, SearchHit searchHit) 
+	{
+		Map<String, SearchHitField> fieldsAndValues = searchHit.getFields();
+		Row<String, Object> row = new Row<String, Object>();
+		for(Entry<String, SearchHitField> mapEntry : fieldsAndValues.entrySet())
+		{
+			row.put(mapEntry.getKey(), mapEntry.getValue().getValue());
+		}
+		result.addRow(row);
 	}
 	
 }

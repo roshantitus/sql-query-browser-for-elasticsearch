@@ -7,6 +7,8 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -42,7 +44,7 @@ public class QueryServiceTest {
 		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT, INDEX);
 		
 		//setup data
-		String queryString = "select user, title, body, postDate from post";
+		String queryString = "select * from post";
 
 		
 		//run		
@@ -53,6 +55,10 @@ public class QueryServiceTest {
 		assertEquals(new Long(3), result.getTotalHits());
 		assertEquals(3, result.getRows().size());
 		assertEquals(4, result.getRows().get(0).size());
+		assertTrue(result.getRows().get(0).containsKey("user"));
+		assertTrue(result.getRows().get(0).containsKey("title"));
+		assertTrue(result.getRows().get(0).containsKey("body"));
+		assertTrue(result.getRows().get(0).containsKey("postDate"));		
 	}
 
 	@Test
@@ -72,6 +78,10 @@ public class QueryServiceTest {
 		assertEquals(new Long(3), result.getTotalHits());
 		assertEquals(3, result.getRows().size());
 		assertEquals(2, result.getRows().get(0).size());
+		assertTrue(result.getRows().get(0).containsKey("user"));
+		assertTrue(result.getRows().get(0).containsKey("title"));
+		assertFalse(result.getRows().get(0).containsKey("body"));
+		assertFalse(result.getRows().get(0).containsKey("postDate"));
 	}
 	
 	@Test
