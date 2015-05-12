@@ -4,8 +4,11 @@
 package org.webplans.sqltools.sql2nosql.data.es;
 
 
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.jsqlparser.expression.AllComparisonExpression;
 import net.sf.jsqlparser.expression.AnalyticExpression;
 import net.sf.jsqlparser.expression.AnyComparisonExpression;
@@ -72,6 +75,7 @@ import net.sf.jsqlparser.statement.select.FromItemVisitor;
 import net.sf.jsqlparser.statement.select.LateralSubSelect;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.SelectItem;
 import net.sf.jsqlparser.statement.select.SelectVisitor;
 import net.sf.jsqlparser.statement.select.SetOperationList;
 import net.sf.jsqlparser.statement.select.SubJoin;
@@ -90,13 +94,21 @@ import org.webplans.sqltools.sql2nosql.model.QueryVisitor;
  * @author Roshan Titus
  *
  */
-public class ElastcSearchQueryBuilder implements QueryVisitor, StatementVisitor, SelectVisitor, FromItemVisitor, ExpressionVisitor, ItemsListVisitor{
+public class ElasticSearchQueryBuilder implements QueryVisitor, StatementVisitor, SelectVisitor, FromItemVisitor, ExpressionVisitor, ItemsListVisitor{
 
+	private String index;
 	private QueryBuilder querybuilder;
+	private List<String> fields;
 	
-	public QueryBuilder buildQuery(Query queryObject) throws NotSupportedException{
+	public ElasticSearchQuery buildQuery(Query queryObject, String index) throws NotSupportedException
+	{
+		this.index = index;
+		this.fields = new ArrayList<String>();
+				
 		queryObject.accept(this);
-		return querybuilder;				
+		
+		ElasticSearchQuery elasticSearchQuery = new ElasticSearchQuery(this.index, querybuilder, fields);
+		return elasticSearchQuery;				
 	}
 
 	@Override
@@ -281,7 +293,6 @@ public class ElastcSearchQueryBuilder implements QueryVisitor, StatementVisitor,
 
 	@Override
 	public void visit(Column tableColumn) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -390,7 +401,6 @@ public class ElastcSearchQueryBuilder implements QueryVisitor, StatementVisitor,
 	@Override
 	public void visit(Table tableName) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -419,8 +429,14 @@ public class ElastcSearchQueryBuilder implements QueryVisitor, StatementVisitor,
 
 	@Override
 	public void visit(PlainSelect plainSelect) {
-		// TODO Auto-generated method stub
 		
+		plainSelect.getFromItem().accept(this);
+		
+		List<SelectItem> selectItems = plainSelect.getSelectItems();
+		for(SelectItem selectItem : selectItems)
+		{
+			fields.add(selectItem.toString());
+		}
 	}
 
 	@Override
@@ -437,26 +453,27 @@ public class ElastcSearchQueryBuilder implements QueryVisitor, StatementVisitor,
 
 	@Override
 	public void visit(Select select) {
-		// TODO Auto-generated method stub
 		
+		querybuilder = matchAllQuery();
+		select.getSelectBody().accept(this);
 	}
 
 	@Override
 	public void visit(Delete delete) {
 		// TODO Auto-generated method stub
-		
+		throw new NotSupportedException("Statement not supported!");
 	}
 
 	@Override
 	public void visit(Update update) {
 		// TODO Auto-generated method stub
-		
+		throw new NotSupportedException("Statement not supported!");
 	}
 
 	@Override
 	public void visit(Insert insert) {
 		// TODO Auto-generated method stub
-		
+		throw new NotSupportedException("Statement not supported!");
 	}
 
 	@Override
@@ -468,13 +485,13 @@ public class ElastcSearchQueryBuilder implements QueryVisitor, StatementVisitor,
 	@Override
 	public void visit(Drop drop) {
 		// TODO Auto-generated method stub
-		
+		throw new NotSupportedException("Statement not supported!");
 	}
 
 	@Override
 	public void visit(Truncate truncate) {
 		// TODO Auto-generated method stub
-		
+		throw new NotSupportedException("Statement not supported!");
 	}
 
 	@Override
@@ -509,16 +526,8 @@ public class ElastcSearchQueryBuilder implements QueryVisitor, StatementVisitor,
 
 	@Override
 	public void visit(Statement statement) {
-		if(statement instanceof Select)
-		{
-			Select select = (Select) statement;
-			querybuilder = matchAllQuery();
-			select.getSelectBody().accept(this);
-		}
-		else
-		{
-			throw new NotSupportedException("Statement not supported!");
-		}
+		
+		statement.accept(this);
 	}
 
 }

@@ -9,6 +9,11 @@ package org.webplans.sqltools.sql2nosql.exception;
  */
 public class NotSupportedException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3929529660569566302L;
+
 	public NotSupportedException() {
 		super();
 		// TODO initialize object

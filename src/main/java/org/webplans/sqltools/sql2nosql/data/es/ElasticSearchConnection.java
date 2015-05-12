@@ -51,7 +51,7 @@ public class ElasticSearchConnection implements Connection {
 
 	@Override
 	public Statement buildStatement(Query queryObject) throws QueryException {
-		return new ElasticSearchStatement(client, queryObject);
+		return new ElasticSearchStatement(config, client, queryObject);
 	}
 
 

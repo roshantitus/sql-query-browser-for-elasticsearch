@@ -11,17 +11,26 @@ public class DataSourceConnectionParameters {
 
 	private String dataSourceCode;
 	private String hostName;
-	private String port;
+	private Integer port;
+	private String database;
 	private String username;
-	private String password;
-	
+	private String password;	
+
 	public DataSourceConnectionParameters(String dataSourceCode,
-			String hostName, String port) 
-	{
+			String hostName, Integer port, String database) {
 		super();
 		this.dataSourceCode = dataSourceCode;
 		this.hostName = hostName;
 		this.port = port;
+		this.database = database;
+	}
+
+	public String getDatabase() {
+		return database;
+	}
+
+	public void setDatabase(String database) {
+		this.database = database;
 	}
 
 	public String getDataSourceCode() {
@@ -40,11 +49,11 @@ public class DataSourceConnectionParameters {
 		this.hostName = hostName;
 	}
 
-	public String getPort() {
+	public Integer getPort() {
 		return port;
 	}
 
-	public void setPort(String port) {
+	public void setPort(Integer port) {
 		this.port = port;
 	}
 

@@ -3,6 +3,8 @@
  */
 package org.webplans.sqltools.sql2nosql.sqlparser;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Stack;
 
 import net.sf.jsqlparser.expression.BinaryExpression;
@@ -17,12 +19,8 @@ import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.select.SelectVisitorAdapter;
 
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.webplans.sqltools.sql2nosql.data.es.ElasticSearchConnection;
 import org.webplans.sqltools.sql2nosql.model.Query;
 import org.webplans.sqltools.sql2nosql.model.QueryVisitorAdapter;
 import org.webplans.sqltools.sql2nosql.service.sqlparser.SQLParser;
@@ -69,7 +67,6 @@ public class SQLParserTest {
 
 		                            @Override
 		                            public void visit(Column column) {
-		                            	logger.info("Column: " + column.getColumnName());
 		                                params.push(new Pair<String, String>(column.getColumnName(), params.pop().getRight()));
 		                            }
 
@@ -109,14 +106,6 @@ public class SQLParserTest {
 
         public R getRight() {
             return right;
-        }
-
-        public boolean isEmpty() {
-            return left == null && right == null;
-        }
-
-        public boolean isFull() {
-            return left != null && right != null;
         }
 
         @Override

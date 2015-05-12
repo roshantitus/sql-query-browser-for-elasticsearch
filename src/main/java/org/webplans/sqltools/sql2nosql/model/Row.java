@@ -11,4 +11,9 @@ import java.util.HashMap;
  */
 public class Row<String, Object> extends HashMap<String, Object> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9190565513995766776L;
+
 }

@@ -40,7 +40,7 @@ public class QueryExecutionServiceImpl implements QueryExecutionService {
 			throw new IllegalArgumentException("dataSourceConnectionParameters cannot be null!");
 		}
 		String dataSourceCode = dataSourceConnectionParameters.getDataSourceCode();
-		Configuration config = new Configuration(dataSourceConnectionParameters.getHostName(), Integer.valueOf(dataSourceConnectionParameters.getPort()));
+		Configuration config = new Configuration(dataSourceConnectionParameters.getHostName(), dataSourceConnectionParameters.getPort(), dataSourceConnectionParameters.getDatabase());
 		return queryDAO.executeQuery(queryObject, DataSource.getDataSourceByCode(dataSourceCode), config);
 	}
 

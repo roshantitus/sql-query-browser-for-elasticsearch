@@ -11,14 +11,23 @@ public class Configuration {
 
 	private String hostName;
 	private Integer portNo;
+	private String database;	
 	private String username;
-	private String password;
-	
-	public Configuration(String hostName, Integer portNo) 
-	{
+	private String password;	
+
+	public Configuration(String hostName, Integer portNo, String database) {
 		super();
 		this.hostName = hostName;
 		this.portNo = portNo;
+		this.database = database;
+	}
+
+	public String getDatabase() {
+		return database;
+	}
+
+	public void setDatabase(String database) {
+		this.database = database;
 	}
 
 	public String getHostName() {
