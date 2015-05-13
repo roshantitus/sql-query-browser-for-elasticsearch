@@ -3,6 +3,8 @@
  */
 package org.webplans.sqltools.sql2nosql.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webplans.sqltools.sql2nosql.model.Query;
@@ -42,6 +44,11 @@ public class QueryServiceImpl implements QueryService {
 		Query queryObject = queryTransformationService.transformQueryStringToObjectHeirarchy(queryString);
 		Result result = queryExecutionService.executeAgainstDatasource(queryObject, dataSourceConnectionParameters);
 		return result;
+	}
+	
+	public List<String> getAllAvailableIndices(DataSourceConnectionParameters dataSourceConnectionParameters)
+	{
+		return queryExecutionService.fetchIndices(dataSourceConnectionParameters);
 	}
 
 }

@@ -3,8 +3,14 @@
  */
 package org.webplans.sqltools.sql2nosql.data.es;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.hppc.ObjectLookupContainer;
+import org.elasticsearch.common.hppc.cursors.ObjectCursor;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +19,7 @@ import org.webplans.sqltools.sql2nosql.data.Connection;
 import org.webplans.sqltools.sql2nosql.data.Statement;
 import org.webplans.sqltools.sql2nosql.exception.ConnectionException;
 import org.webplans.sqltools.sql2nosql.exception.QueryException;
-import org.webplans.sqltools.sql2nosql.exception.ResultException;
 import org.webplans.sqltools.sql2nosql.model.Query;
-import org.webplans.sqltools.sql2nosql.model.Result;
 
 /**
  * @author Roshan Titus
@@ -53,14 +57,7 @@ public class ElasticSearchConnection implements Connection {
 	public Statement buildStatement(Query queryObject) throws QueryException {
 		return new ElasticSearchStatement(config, client, queryObject);
 	}
-
-
-
-	@Override
-	public Result processResponse() throws ResultException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public void close() throws ConnectionException 
@@ -79,6 +76,30 @@ public class ElasticSearchConnection implements Connection {
 
 	public Client getClient() {
 		return client;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.webplans.sqltools.sql2nosql.data.Connection#fetchIndices()
+	 */
+	@Override
+	public List<String> fetchIndices() 
+	{
+		List<String> indexNames = new ArrayList<String>();
+		ObjectLookupContainer<String> indices = client.admin().cluster().prepareState().execute() .actionGet().getState() .getMetaData().indices().keys();
+		if(null != indices && indices.size() > 0)
+		{
+			Iterator<ObjectCursor<String>> indexIterator = indices.iterator();
+			while(indexIterator.hasNext())
+			{
+				String indexName = indexIterator.next().value;
+				//logger.info(indexName);
+				if(null != indexName && indexName.length() > 0 && !indexName.startsWith(".marvel-"))
+				{
+					indexNames.add(indexName);
+				}
+			}
+		}
+		return indexNames;
 	}
 
 	

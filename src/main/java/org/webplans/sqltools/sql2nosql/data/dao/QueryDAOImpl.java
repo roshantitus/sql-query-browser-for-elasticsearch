@@ -3,6 +3,8 @@
  */
 package org.webplans.sqltools.sql2nosql.data.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.webplans.sqltools.sql2nosql.data.AbstractConnectionFactory;
 import org.webplans.sqltools.sql2nosql.data.Configuration;
@@ -49,7 +51,8 @@ public class QueryDAOImpl implements QueryDAO {
 	}
 
 	public Connection openConnectionToDatasource(DataSource dataSource,
-			Configuration config) {
+			Configuration config) 
+	{
 		if(null == dataSource)
 		{
 			throw new ConnectionException("dataSource is null");
@@ -57,6 +60,22 @@ public class QueryDAOImpl implements QueryDAO {
 		ConnectionFactory connectionFactory = AbstractConnectionFactory.getConnectionFactory(dataSource);
 		Connection connection = connectionFactory.openConnection(config);
 		return connection;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.webplans.sqltools.sql2nosql.data.dao.QueryDAO#fetchIndices(org.webplans.sqltools.sql2nosql.data.DataSource, org.webplans.sqltools.sql2nosql.data.Configuration)
+	 */
+	@Override
+	public List<String> fetchIndices(DataSource dataSource,
+			Configuration config) 
+	{
+		List<String> indices = null;
+		Connection connection = openConnectionToDatasource(dataSource, config);
+		
+		indices = connection.fetchIndices();
+		
+		closeConnectionWithDatasource(connection);
+		return indices;
 	}
 
 }

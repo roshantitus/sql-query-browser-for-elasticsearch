@@ -17,7 +17,11 @@ public abstract class AbstractConnectionFactory {
 		if(DataSource.ELASTICSEARCH.equals(dataSource))
 		{
 			connectionFactory = new ElasticSearchConnectionFactory();
-		}		
+		}
+		else
+		{
+			throw new IllegalArgumentException("Datasource not supported!");
+		}
 		return connectionFactory;
 	}		
 }

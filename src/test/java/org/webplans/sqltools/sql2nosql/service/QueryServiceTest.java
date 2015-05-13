@@ -4,12 +4,14 @@
 package org.webplans.sqltools.sql2nosql.service;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -106,4 +108,15 @@ public class QueryServiceTest {
 		}
 
 	}	
+	
+	@Test
+	public void testFetchIndices() 
+	{
+		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT, INDEX);
+
+		List<String> indices = queryService.getAllAvailableIndices(dataSourceConnectionParameters);
+		assertNotNull(indices);
+		assertEquals(1, indices.size());
+		assertTrue(indices.get(0).equals(INDEX));		
+	}
 }
