@@ -3,7 +3,9 @@
  */
 package org.webplans.sqltools.sql2nosql.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +54,7 @@ public class QueryServiceImpl implements QueryService {
 	}
 	
 	@Override
-	public List<String> getAllAvailableIndices(DataSourceConnectionParameters dataSourceConnectionParameters)
+	public List<String> getAllIndices(DataSourceConnectionParameters dataSourceConnectionParameters)
 	{
 		return fetchIndices(dataSourceConnectionParameters);
 	}
@@ -88,5 +90,21 @@ public class QueryServiceImpl implements QueryService {
 		}
 		Configuration config = new Configuration(dataSourceConnectionParameters.getHostName(), dataSourceConnectionParameters.getPort(), dataSourceConnectionParameters.getDatabase());
 		return config;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.webplans.sqltools.sql2nosql.service.QueryService#getAllDatasources()
+	 */
+	@Override
+	public Map<String, String> getAllDatasources() {
+		
+		Map<String, String> datasources = new HashMap<String, String>();
+		DataSource[] datasourceArray = DataSource.values();
+		for(DataSource dataSource : datasourceArray)
+		{
+			datasources.put(dataSource.getDataSourceCode(), dataSource.getDataSourceName());
+		}
+		return datasources;
 	}	
 }

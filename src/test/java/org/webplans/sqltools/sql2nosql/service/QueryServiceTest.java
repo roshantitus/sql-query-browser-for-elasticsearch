@@ -12,12 +12,14 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.webplans.sqltools.sql2nosql.data.DataSource;
 import org.webplans.sqltools.sql2nosql.exception.NotSupportedException;
 import org.webplans.sqltools.sql2nosql.model.Result;
 import org.webplans.sqltools.sql2nosql.service.vo.DataSourceConnectionParameters;
@@ -110,13 +112,24 @@ public class QueryServiceTest {
 	}	
 	
 	@Test
-	public void testFetchIndices() 
+	public void testGetAllIndices() 
 	{
 		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT, INDEX);
 
-		List<String> indices = queryService.getAllAvailableIndices(dataSourceConnectionParameters);
+		List<String> indices = queryService.getAllIndices(dataSourceConnectionParameters);
 		assertNotNull(indices);
 		assertEquals(1, indices.size());
 		assertTrue(indices.get(0).equals(INDEX));		
 	}
+	
+	@Test
+	public void testGetAllDatasources() 
+	{
+		Map<String, String> datasources = queryService.getAllDatasources();
+		assertNotNull(datasources);
+		assertEquals(1, datasources.size());
+		assertNotNull(datasources.get(DATASOURCE));		
+		assertEquals(datasources.get(DATASOURCE), DataSource.ELASTICSEARCH.getDataSourceName());
+	}
+	
 }
