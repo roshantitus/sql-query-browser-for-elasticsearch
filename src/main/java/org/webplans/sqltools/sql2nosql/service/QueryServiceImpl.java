@@ -7,8 +7,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webplans.sqltools.sql2nosql.data.Configuration;
+import org.webplans.sqltools.sql2nosql.data.DataSource;
+import org.webplans.sqltools.sql2nosql.data.dao.QueryDAO;
 import org.webplans.sqltools.sql2nosql.model.Query;
 import org.webplans.sqltools.sql2nosql.model.Result;
+import org.webplans.sqltools.sql2nosql.service.sqlparser.SQLParser;
 import org.webplans.sqltools.sql2nosql.service.vo.DataSourceConnectionParameters;
 
 /**
@@ -18,15 +22,16 @@ import org.webplans.sqltools.sql2nosql.service.vo.DataSourceConnectionParameters
 @Service
 public class QueryServiceImpl implements QueryService {
 
-	private QueryExecutionService queryExecutionService;
-	private QueryTransformationService queryTransformationService;
+	private SQLParser sqlParser;
+	private QueryDAO queryDAO;	
+	
 	
 	@Autowired
-	public QueryServiceImpl(QueryExecutionService queryExecutionService,
-			QueryTransformationService queryTransformationService) {
+	public QueryServiceImpl(SQLParser sqlParser, QueryDAO queryDAO) 
+	{
 		super();
-		this.queryExecutionService = queryExecutionService;
-		this.queryTransformationService = queryTransformationService;
+		this.sqlParser = sqlParser;
+		this.queryDAO = queryDAO;
 	}
 
 
@@ -41,14 +46,47 @@ public class QueryServiceImpl implements QueryService {
 		{
 			throw new IllegalArgumentException("queryString and dataSourceConnectionParameters cannot be null!");
 		}		
-		Query queryObject = queryTransformationService.transformQueryStringToObjectHeirarchy(queryString);
-		Result result = queryExecutionService.executeAgainstDatasource(queryObject, dataSourceConnectionParameters);
+		Query queryObject = transformQueryStringToObjectHeirarchy(queryString);
+		Result result = executeAgainstDatasource(queryObject, dataSourceConnectionParameters);
 		return result;
 	}
 	
+	@Override
 	public List<String> getAllAvailableIndices(DataSourceConnectionParameters dataSourceConnectionParameters)
 	{
-		return queryExecutionService.fetchIndices(dataSourceConnectionParameters);
+		return fetchIndices(dataSourceConnectionParameters);
 	}
 
+	private Query transformQueryStringToObjectHeirarchy(String queryString) {
+		return sqlParser.parse(queryString);
+	}
+	
+
+	private Result executeAgainstDatasource(Query queryObject, DataSourceConnectionParameters dataSourceConnectionParameters) 
+	{
+		Configuration config = getConfiguration(dataSourceConnectionParameters);
+		return queryDAO.executeQuery(queryObject, DataSource.getDataSourceByCode(dataSourceConnectionParameters.getDataSourceCode()), config);
+	}
+
+
+	private List<String> fetchIndices(DataSourceConnectionParameters dataSourceConnectionParameters) 
+	{
+		Configuration config = getConfiguration(dataSourceConnectionParameters);
+		return queryDAO.fetchIndices(DataSource.getDataSourceByCode(dataSourceConnectionParameters.getDataSourceCode()), config);
+	}	
+	
+	
+	/**
+	 * @param dataSourceConnectionParameters
+	 * @return
+	 */
+	private Configuration getConfiguration(
+			DataSourceConnectionParameters dataSourceConnectionParameters) {
+		if(null == dataSourceConnectionParameters)
+		{
+			throw new IllegalArgumentException("dataSourceConnectionParameters cannot be null!");
+		}
+		Configuration config = new Configuration(dataSourceConnectionParameters.getHostName(), dataSourceConnectionParameters.getPort(), dataSourceConnectionParameters.getDatabase());
+		return config;
+	}	
 }
