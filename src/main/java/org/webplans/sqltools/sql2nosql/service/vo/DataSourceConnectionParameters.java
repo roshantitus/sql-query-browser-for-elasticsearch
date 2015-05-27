@@ -17,12 +17,11 @@ public class DataSourceConnectionParameters {
 	private String password;	
 
 	public DataSourceConnectionParameters(String dataSourceCode,
-			String hostName, Integer port, String database) {
+			String hostName, Integer port) {
 		super();
 		this.dataSourceCode = dataSourceCode;
 		this.hostName = hostName;
 		this.port = port;
-		this.database = database;
 	}
 
 	public String getDatabase() {

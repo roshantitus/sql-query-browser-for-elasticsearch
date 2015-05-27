@@ -45,7 +45,8 @@ public class QueryServiceTest {
 	@Test
 	public void testExecuteQueryForSimpleSelect() {
 		
-		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT, INDEX);
+		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT);
+		dataSourceConnectionParameters.setDatabase(INDEX);
 		
 		//setup data
 		String queryString = "select * from post";
@@ -68,7 +69,8 @@ public class QueryServiceTest {
 	@Test
 	public void testExecuteQueryWithFieldSelection() {
 		
-		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT, INDEX);
+		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT);
+		dataSourceConnectionParameters.setDatabase(INDEX);
 		
 		//setup data
 		String queryString = "select user, title from post";
@@ -91,7 +93,8 @@ public class QueryServiceTest {
 	@Test
 	public void testExecuteQueryForDelete() {
 			
-		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT, INDEX);
+		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT);
+		dataSourceConnectionParameters.setDatabase(INDEX);
 		
 		//setup data
 		String queryString = "delete from post";
@@ -114,7 +117,8 @@ public class QueryServiceTest {
 	@Test
 	public void testGetAllIndices() 
 	{
-		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT, INDEX);
+		DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(DATASOURCE, HOST_NAME, PORT);
+		dataSourceConnectionParameters.setDatabase(INDEX);
 
 		List<String> indices = queryService.getAllIndices(dataSourceConnectionParameters);
 		assertNotNull(indices);
