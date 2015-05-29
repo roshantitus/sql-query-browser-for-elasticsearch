@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.webplans.sqltools.sql2nosql.model.Result;
 import org.webplans.sqltools.sql2nosql.service.QueryService;
 import org.webplans.sqltools.sql2nosql.service.vo.DataSourceConnectionParameters;
 import org.webplans.sqltools.sql2nosql.web.command.QueryCommand;
@@ -42,6 +43,7 @@ public class QueryController {
     @RequestMapping(value="/connection.html", method=RequestMethod.POST)
     public String handleConnectionRequest(HttpServletRequest request, QueryCommand queryCommand, BindingResult result) throws Exception 
     {
+    	logger.info("handleConnectionRequest: " + queryCommand.toString());
     	DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(queryCommand.getDataSourceCode(), queryCommand.getHostname(), Integer.valueOf(queryCommand.getPort()));
     	queryCommand.setIndexes(queryService.getAllIndices(dataSourceConnectionParameters));
     	return "query";
@@ -50,7 +52,10 @@ public class QueryController {
     @RequestMapping(value="/query.html", method=RequestMethod.POST)
     public String handleQueryRequest(HttpServletRequest request, QueryCommand queryCommand, BindingResult result) throws Exception 
     {
-    	logger.info(queryCommand.toString());
+    	logger.info("handleQueryRequest: " + queryCommand.toString());
+    	DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(queryCommand.getDataSourceCode(), queryCommand.getHostname(), Integer.valueOf(queryCommand.getPort()));
+    	dataSourceConnectionParameters.setDatabase(queryCommand.getDatabase());
+    	queryCommand.setResult(queryService.executeQuery(queryCommand.getQuery(), dataSourceConnectionParameters));
     	return "query";
     }
 }
