@@ -7,7 +7,8 @@
 **Browser-Based UI**
 Sql Query Browser is entirely browser-based and securely connects to your data from anywhere in the world—with nothing to install on your system.
 
-## Running petclinic locally
+## Running Sql Query Browser for Elasticsearch locally
+
 ```
 git clone https://github.com/roshantitus/sql-query-browser-for-elasticsearch.git
 mvn jetty:run
@@ -15,10 +16,10 @@ mvn jetty:run
 
 You can then access petclinic here: http://localhost:8080/query-tool/
 
-## In case you find a bug/suggested improvement for Spring Petclinic
+## In case you find a bug/suggested improvement for Sql Query Browser for Elasticsearch
 Our issue tracker is available here: https://github.com/roshantitus/sql-query-browser-for-elasticsearch/issues
 
-## Working with Query Browser in Eclipse/STS
+## Working with Query Browser for Elasticsearch in Eclipse/STS
 
 ### Pre requisites:
 The following items should be installed in your system:
