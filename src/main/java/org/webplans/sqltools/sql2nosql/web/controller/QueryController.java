@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.webplans.sqltools.sql2nosql.model.Result;
 import org.webplans.sqltools.sql2nosql.service.QueryService;
 import org.webplans.sqltools.sql2nosql.service.vo.DataSourceConnectionParameters;
 import org.webplans.sqltools.sql2nosql.web.command.QueryCommand;
@@ -45,7 +44,7 @@ public class QueryController {
     {
     	logger.info("handleConnectionRequest: " + queryCommand.toString());
     	DataSourceConnectionParameters dataSourceConnectionParameters = new DataSourceConnectionParameters(queryCommand.getDataSourceCode(), queryCommand.getHostname(), Integer.valueOf(queryCommand.getPort()));
-    	queryCommand.setIndexes(queryService.getAllIndices(dataSourceConnectionParameters));
+    	request.getSession().setAttribute("indexes", queryService.getAllIndices(dataSourceConnectionParameters));
     	return "query";
     }
     

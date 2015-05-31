@@ -21,19 +21,12 @@ public class QueryCommand {
 	private String query;
     private Result result;	
     private Map<String, String> datasources;
-    private List<String> indexes;
     
 	public Map<String, String> getDatasources() {
 		return datasources;
 	}
 	public void setDatasources(Map<String, String> datasources) {
 		this.datasources = datasources;
-	}
-	public List<String> getIndexes() {
-		return indexes;
-	}
-	public void setIndexes(List<String> indexes) {
-		this.indexes = indexes;
 	}
 	public String getDatabase() {
 		return database;

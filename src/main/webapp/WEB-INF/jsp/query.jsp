@@ -5,12 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><fmt:message key="query.window.title"/></title>
-	<!--
-	<link rel="stylesheet" type="text/css" href="css/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="css/themes/icon.css">
-	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>	
-	  -->
+
+<!-- 	<link rel="stylesheet" type="text/css" href="/css/themes/default/easyui.css"> -->
+<!-- 	<link rel="stylesheet" type="text/css" href="/css/themes/icon.css"> -->
+<!-- 	<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script> -->
+<!-- 	<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>	 -->
+	
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+    <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>	
+
 </head>
 <body>
 		<div>	
@@ -19,7 +26,7 @@
 				<legend class="legend"><fmt:message key="query.database.legend.header"/></legend>
 				<div class="form-item"> 
 					<form:select path="database" cssErrorClass="form-error-field" >
-						<form:options items="${queryCommand.indexes}" />
+						<form:options items="${indexes}" />
 	                </form:select>	
 	                <div class="form-item"><form:errors path="database" cssClass="form-error-message" /></div>		
 				</div>	
@@ -50,11 +57,25 @@
 		<fieldset class="fieldset">
 			<legend class="legend"><fmt:message key="query.output.legend.header"/></legend>		
 				<c:if test="${queryCommand.result.totalHits != null}">								
-					<table id="tt" class="easyui-datagrid" style="width:1200px;height:300px">
-						<thead><tr><th field="ROW_ID" width="100"></th>
-						<c:forEach var="row" items="${queryCommand.result.rows}">
-						   
-						</c:forEach>
+					<table id="tt" class="easyui-datagrid" style="width:100;height:auto;">
+						<thead>
+							<tr>
+<!-- 								<th field="ROW_ID" width="100">row_id</th> -->
+								<c:forEach var="entry" items="${queryCommand.result.rows.get(0)}">
+								   <th width="100" align="center" field="<c:out value='${entry.key}'/>"><c:out value="${entry.key}"/></th>
+								</c:forEach>
+							</tr>
+						</thead>	
+						
+						<tbody>				
+							<c:forEach var="row" items="${queryCommand.result.rows}">
+								<tr>								
+									<c:forEach var="entry" items="${row}">
+									   <td width="100" align="center"><c:out value="${entry.value}"/></td>
+									</c:forEach>		
+								</tr>														   
+							</c:forEach>																					
+						</tbody>														
 					</table>
 				</c:if>
 		</fieldset>			
