@@ -3,7 +3,6 @@
  */
 package org.webplans.sqltools.sql2nosql.web.command;
 
-import java.util.List;
 import java.util.Map;
 
 import org.webplans.sqltools.sql2nosql.model.Result;
