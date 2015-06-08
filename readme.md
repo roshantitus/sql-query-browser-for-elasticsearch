@@ -14,11 +14,15 @@ git clone https://github.com/roshantitus/sql-query-browser-for-elasticsearch.git
 mvn jetty:run
 ```
 
-You can then access petclinic here: http://localhost:8080/query-tool/
+You can then access query browser here: http://localhost:8080/query-tool/
 
 ## In case you find a bug/suggested improvement for Sql Query Browser for Elasticsearch
-Our issue tracker is available here: https://github.com/roshantitus/sql-query-browser-for-elasticsearch/issues
 
+Our issue tracker is available here: 
+
+```
+https://github.com/roshantitus/sql-query-browser-for-elasticsearch/issues
+```
 ## Working with Query Browser for Elasticsearch in Eclipse/STS
 
 ### Pre requisites:
@@ -37,10 +41,15 @@ If m2e is not there, just follow the install process here: http://eclipse.org/m2
 1) In the command line
 
 ```
-git clone https://github.com/roshantitus/sql-query-browser-for-elasticsearch.git```
+git clone https://github.com/roshantitus/sql-query-browser-for-elasticsearch.git
+```
 
 2) Inside Eclipse
 
 ```
 File -> Import -> Maven -> Existing Maven project
 ```
+
+## Interaction with other open source projects
+
+The project uses [JSqlParser](https://github.com/JSQLParser/JSqlParser) as the undelying SQL parser. JSqlParser parses an SQL statement and translate it into a hierarchy of Java classes. The generated hierarchy is navigated using Visitor Pattern to generate Elasticsearch specific queries.
