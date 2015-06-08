@@ -50,6 +50,7 @@ git clone https://github.com/roshantitus/sql-query-browser-for-elasticsearch.git
 File -> Import -> Maven -> Existing Maven project
 ```
 
-## Interaction with other open source projects
+## Interaction with other open source projects 
 
 The project uses [JSqlParser](https://github.com/JSQLParser/JSqlParser) as the undelying SQL parser. JSqlParser parses an SQL statement and translate it into a hierarchy of Java classes. The generated hierarchy is navigated using Visitor Pattern to generate Elasticsearch specific queries.
+
