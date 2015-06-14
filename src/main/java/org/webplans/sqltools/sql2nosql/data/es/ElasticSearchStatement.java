@@ -128,11 +128,17 @@ public class ElasticSearchStatement implements Statement{
 	{
 		Map<String, Object> fieldsAndValues = searchHit.getSource();
 		Row<String, Object> row = new Row<String, Object>();
-		for(Entry<String, Object> mapEntry : fieldsAndValues.entrySet())
+		if(null != fieldsAndValues)
 		{
-			row.put(mapEntry.getKey(), mapEntry.getValue());
+			for(Entry<String, Object> mapEntry : fieldsAndValues.entrySet())
+			{
+				row.put(mapEntry.getKey(), mapEntry.getValue());
+			}
 		}
-		result.addRow(row);
+		if(!row.isEmpty())
+		{
+			result.addRow(row);
+		}
 	}
 
 
@@ -149,7 +155,10 @@ public class ElasticSearchStatement implements Statement{
 		{
 			row.put(mapEntry.getKey(), mapEntry.getValue().getValue());
 		}
-		result.addRow(row);
+		if(!row.isEmpty())
+		{
+			result.addRow(row);
+		}
 	}
 	
 }

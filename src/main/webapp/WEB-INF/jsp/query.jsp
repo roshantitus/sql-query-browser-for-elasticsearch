@@ -57,12 +57,12 @@
 		<fieldset class="fieldset">
 			<legend class="legend"><fmt:message key="query.output.legend.header"/></legend>		
 				<c:if test="${queryCommand.result.totalHits != null}">								
-					<table id="tt" class="easyui-datagrid" style="width:100;height:auto;">
+					<table id="tt" class="easyui-datagrid">
 						<thead>
 							<tr>
 <!-- 								<th field="ROW_ID" width="100">row_id</th> -->
 								<c:forEach var="entry" items="${queryCommand.result.rows.get(0)}">
-								   <th width="100" align="center" field="<c:out value='${entry.key}'/>"><c:out value="${entry.key}"/></th>
+								   <th align="center" field="<c:out value='${entry.key}'/>"><c:out value="${entry.key}"/></th>
 								</c:forEach>
 							</tr>
 						</thead>	
@@ -71,7 +71,7 @@
 							<c:forEach var="row" items="${queryCommand.result.rows}">
 								<tr>								
 									<c:forEach var="entry" items="${row}">
-									   <td width="100" align="center"><c:out value="${entry.value}"/></td>
+									   <td align="center"><c:out value="${entry.value}"/></td>
 									</c:forEach>		
 								</tr>														   
 							</c:forEach>																					
