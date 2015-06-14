@@ -53,3 +53,27 @@ File -> Import -> Maven -> Existing Maven project
 ## Interaction with other open source projects
 
 The project uses [JSqlParser](https://github.com/JSQLParser/JSqlParser) as the undelying SQL parser. JSqlParser parses an SQL statement and translate it into a hierarchy of Java classes. The generated hierarchy is navigated using Visitor Pattern to generate Elasticsearch specific queries.
+
+## SQL Usuage
+
+* Select Query with all fields included
+
+        SELECT * FROM post
+
+* Select Query with Projection (field selection)
+
+        SELECT user,title,body FROM post
+
+
+## Features
+
+*  SQL Select with Projection
+*  SQL Select with Selection using WHERE clause(not implemented)
+*  SQL Select with avg(not implemented)
+*  SQL Select with count(not implemented)
+*  SQL Select with last(not implemented)
+*  SQL Select with max(not implemented)
+*  SQL Select with min(not implemented)
+*  SQL Select with sum(not implemented)
+*  SQL Select with Group By(not implemented)
+*  SQL Select with Order By(not implemented)
